@@ -24,7 +24,7 @@ const library = new cql.Library(elmFile, new cql.Repository(libraries));
 const executor = new cql.Executor(library, codeService);
 // const executor = new cql.Executor(library);
 
-patientSource = cqlfhir.PatientSource.FHIRv400();
+patientSource = cqlfhir.PatientSource.FHIRv401();
 
 patientSource.loadBundles([fhirBundle]);
 

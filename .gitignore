@@ -2,3 +2,4 @@
 node_modules
 .env
 .gradle
+r4/cql/*/*.json

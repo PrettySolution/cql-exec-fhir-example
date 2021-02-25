@@ -25,15 +25,15 @@ function bundlesBuilder(bPath){
     return b;
 }
 
-function libraryBuilder(projPath) {
-    // Load main executable ELM file
+function libraryBuilder(mPath) {
+    // Load main executable ELM file from mPath (measurePath)
     const mainCql = JSON.parse(fs.readFileSync(
-        path.join(projPath, `main.json`),'utf8'));
+        path.join(mPath, `main.json`),'utf8'));
 
     const includes = mainCql.library.includes && mainCql.library.includes.def || [];
     let includedLibs = {};
     includes.forEach((l)=>{
-        includedLibs[l.localIdentifier] = JSON.parse(fs.readFileSync(path.join(projPath, `${l.path}-${l.version}.json`)));
+        includedLibs[l.localIdentifier] = JSON.parse(fs.readFileSync(path.join(mPath, `${l.path}-${l.version}.json`)));
     });
 
     return new cql.Library(mainCql, new cql.Repository(includedLibs));

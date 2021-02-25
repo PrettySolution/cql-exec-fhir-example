@@ -4,33 +4,55 @@ const cql = require("cql-execution");
 const cqlfhir = require("cql-exec-fhir");
 const cqlvsac = require("cql-exec-vsac");
 
-const elmFile = JSON.parse(fs.readFileSync(
-    path.join(__dirname, 'r4', 'cql', 'gender', 'gender.json'),'utf8'));
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
 
-const libraries = {
-    FHIRHelpers: JSON.parse(fs.readFileSync(
-        path.join(__dirname, 'r4', 'cql', 'gender', 'FHIRHelpers.json'), 'utf8'))
-};
+const bundlesPath = path.join(__dirname, 'r4', 'bundles');
+const measurePath = path.join(__dirname, 'r4', 'cql', 'EXM74-10.2.000');
 
-const fhirBundle1 = JSON.parse(fs.readFileSync(
-    path.join(__dirname, 'r4', 'bundles', 'Johnnie679.json'),'utf8'));
+function bundlesBuilder(bPath){
+    // bundles
+    let b = [];
+    for (const fileName of fs.readdirSync(bPath)) {
+        const file = path.join(bPath, fileName);
+        if (!file.endsWith('.json')){
+            continue;
+        }
+        const json = JSON.parse(fs.readFileSync(file, 'utf8'));
+        b.push(json)
+    }
+    return b;
+}
 
-const fhirBundle2 = JSON.parse(fs.readFileSync(
-    path.join(__dirname, 'r4', 'bundles', 'Luna60.json'),'utf8'));
+function libraryBuilder(projPath) {
+    // Load main executable ELM file
+    const mainCql = JSON.parse(fs.readFileSync(
+        path.join(projPath, `main.json`),'utf8'));
 
-const codeService = new cqlvsac.CodeService(path
-    .join(__dirname, 'r4', 'valueset'),true);
+    const includes = mainCql.library.includes && mainCql.library.includes.def || [];
+    let includedLibs = {};
+    includes.forEach((l)=>{
+        includedLibs[l.localIdentifier] = JSON.parse(fs.readFileSync(path.join(projPath, `${l.path}-${l.version}.json`)));
+    });
 
-const library = new cql.Library(elmFile, new cql.Repository(libraries));
-// const library = new cql.Library(elmFile);
+    return new cql.Library(mainCql, new cql.Repository(includedLibs));
+}
 
-const executor = new cql.Executor(library, codeService);
-// const executor = new cql.Executor(library);
+const library = libraryBuilder(measurePath);
+const bundles = bundlesBuilder(bundlesPath);
 
-patientSource = cqlfhir.PatientSource.FHIRv401();
+const codeService = new cqlvsac.CodeService(
+    path.join(measurePath, 'vsac_cache'),true);
 
-patientSource.loadBundles([fhirBundle1, fhirBundle2]);
-
-const result = executor.exec(patientSource);
-// console.log(JSON.stringify(result, undefined, 2));
-console.log(result)
+codeService.ensureValueSetsInLibraryWithAPIKey(library, true , undefined, true)
+    .then(() => {
+        console.log('ensureValueSetsInLibraryWithAPIKey');
+        const executor = new cql.Executor(library, codeService, undefined);
+        const patientSource = cqlfhir.PatientSource.FHIRv401();
+        patientSource.loadBundles(bundles);
+        const result = executor.exec(patientSource);
+        console.log(result);
+        console.log('Done');
+    })
+    .catch((err) => console.log('Error ensureValueSetsInLibraryWithAPIKey', err));

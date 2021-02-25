@@ -1,5 +1,6 @@
 .idea
 node_modules
+vsac_cache
 .env
 .gradle
 r4/cql/*/*.json

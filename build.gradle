@@ -13,5 +13,5 @@ dependencies {
 task cql2elm(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
   main = 'org.cqframework.cql.cql2elm.CqlTranslator'
-  args '--input', './r4', '--format', 'JSON'
+  args '--input', './r4/cql', '--format', 'JSON'
 }

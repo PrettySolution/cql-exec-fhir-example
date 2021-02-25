@@ -13,10 +13,10 @@
   },
   "devDependencies": {},
   "scripts": {
-    "translate": "gradlew cql2elm",
-    "measure": "node index.js",
+    "build": "gradlew cql2elm",
+    "execute": "node index.js",
     "test": "node test.js",
-    "start": "npm run translate && npm run measure"
+    "start": "npm run build && npm run execute"
   },
   "repository": {
     "type": "git",

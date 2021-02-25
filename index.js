@@ -9,7 +9,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const bundlesPath = path.join(__dirname, 'r4', 'bundles');
-const measurePath = path.join(__dirname, 'r4', 'cql', 'EXM74-10.2.000');
+const measurePath = path.join(__dirname, 'r4', 'cql', process.env.MEASURE);
 
 function bundlesBuilder(bPath){
     // bundles

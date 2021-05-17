@@ -1,0 +1,33 @@
+{
+  "resourceType": "Bundle",
+  "type": "transaction",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "97246",
+        "gender": "female",
+        "birthDate": "1968-04-03"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "173d7126-8320-41d4-a7cc-e02de94423ec",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "185463005"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/97246"
+        },
+        "effectiveDateTime": "2018-10-01"
+      }
+    }
+  ]
+}

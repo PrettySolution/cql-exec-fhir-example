@@ -53,7 +53,7 @@
                   "type" : "DateTime",
                   "year" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "2019",
+                     "value" : "2020",
                      "type" : "Literal"
                   },
                   "month" : {
@@ -91,7 +91,7 @@
                   "type" : "DateTime",
                   "year" : {
                      "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
-                     "value" : "2020",
+                     "value" : "2021",
                      "type" : "Literal"
                   },
                   "month" : {
@@ -153,6 +153,10 @@
             "accessLevel" : "Public"
          }, {
             "name" : "Office Visit",
+            "id" : "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Mammography",
             "id" : "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001",
             "accessLevel" : "Public"
          }, {
@@ -708,15 +712,15 @@
                "operand" : {
                   "type" : "Query",
                   "source" : [ {
-                     "alias" : "FluorideApplication",
+                     "alias" : "Mammogram",
                      "expression" : {
-                        "dataType" : "{http://hl7.org/fhir}Procedure",
-                        "templateId" : "http://hl7.org/fhir/StructureDefinition/Procedure",
+                        "dataType" : "{http://hl7.org/fhir}DiagnosticReport",
+                        "templateId" : "http://hl7.org/fhir/StructureDefinition/DiagnosticReport",
                         "codeProperty" : "code",
                         "codeComparator" : "in",
                         "type" : "Retrieve",
                         "codes" : {
-                           "name" : "Fluoride Varnish Application for Children",
+                           "name" : "Mammography",
                            "type" : "ValueSetRef"
                         }
                      }
@@ -725,39 +729,90 @@
                   "where" : {
                      "type" : "And",
                      "operand" : [ {
-                        "type" : "IncludedIn",
+                        "type" : "And",
                         "operand" : [ {
-                           "name" : "ToInterval",
-                           "libraryName" : "FHIRHelpers",
-                           "type" : "FunctionRef",
+                           "type" : "In",
                            "operand" : [ {
-                              "asType" : "{http://hl7.org/fhir}Period",
-                              "type" : "As",
+                              "type" : "End",
                               "operand" : {
-                                 "path" : "performed",
-                                 "scope" : "FluorideApplication",
-                                 "type" : "Property"
+                                 "name" : "Normalize Interval",
+                                 "libraryName" : "Global",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "path" : "effective",
+                                    "scope" : "Mammogram",
+                                    "type" : "Property"
+                                 } ]
+                              }
+                           }, {
+                              "lowClosed" : true,
+                              "highClosed" : true,
+                              "type" : "Interval",
+                              "low" : {
+                                 "type" : "Subtract",
+                                 "operand" : [ {
+                                    "type" : "End",
+                                    "operand" : {
+                                       "name" : "Measurement Period",
+                                       "type" : "ParameterRef"
+                                    }
+                                 }, {
+                                    "value" : 27,
+                                    "unit" : "months",
+                                    "type" : "Quantity"
+                                 } ]
+                              },
+                              "high" : {
+                                 "type" : "End",
+                                 "operand" : {
+                                    "name" : "Measurement Period",
+                                    "type" : "ParameterRef"
+                                 }
                               }
                            } ]
                         }, {
-                           "name" : "Measurement Period",
-                           "type" : "ParameterRef"
+                           "type" : "Not",
+                           "operand" : {
+                              "type" : "IsNull",
+                              "operand" : {
+                                 "type" : "End",
+                                 "operand" : {
+                                    "name" : "Measurement Period",
+                                    "type" : "ParameterRef"
+                                 }
+                              }
+                           }
                         } ]
                      }, {
-                        "type" : "Equal",
+                        "type" : "In",
                         "operand" : [ {
                            "name" : "ToString",
                            "libraryName" : "FHIRHelpers",
                            "type" : "FunctionRef",
                            "operand" : [ {
                               "path" : "status",
-                              "scope" : "FluorideApplication",
+                              "scope" : "Mammogram",
                               "type" : "Property"
                            } ]
                         }, {
-                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
-                           "value" : "completed",
-                           "type" : "Literal"
+                           "type" : "List",
+                           "element" : [ {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                              "value" : "final",
+                              "type" : "Literal"
+                           }, {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                              "value" : "amended",
+                              "type" : "Literal"
+                           }, {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                              "value" : "corrected",
+                              "type" : "Literal"
+                           }, {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                              "value" : "appended",
+                              "type" : "Literal"
+                           } ]
                         } ]
                      } ]
                   }

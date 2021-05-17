@@ -8,7 +8,6 @@ repositories {
 
 dependencies {
   runtimeOnly 'info.cqframework:cql-to-elm:1.5.1'
-  runtimeOnly 'org.opencds.cqf:tooling:1.3.0'
 }
 
 task cql2elm(type: JavaExec) {

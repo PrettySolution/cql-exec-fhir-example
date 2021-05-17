@@ -12,6 +12,7 @@ codesystem "LOINC": 'http://loinc.org'
 valueset "Clinical Oral Evaluation": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.125.12.1003'
 valueset "Fluoride Varnish Application for Children": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.125.12.1002'
 valueset "Office Visit": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001'
+valueset "Mammography": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001'
 valueset "Preventive Care - Established Office Visit, 0 to 17": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1024'
 valueset "Preventive Care Services - Established Office Visit, 18 and Up": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1025'
 valueset "Preventive Care Services-Initial Office Visit, 18 and Up": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1023'
@@ -20,7 +21,7 @@ valueset "Preventive Care- Initial Office Visit, 0 to 17": 'http://cts.nlm.nih.g
 code "Birth date": '21112-8' from "LOINC" display 'Birth date'
 
 parameter "Measurement Period" Interval<DateTime>
-  default Interval[@2019-01-01T00:00:00.0, @2020-01-01T00:00:00.0)
+  default Interval[@2020-01-01T00:00:00.0, @2021-01-01T00:00:00.0)
 
 context Patient
 
@@ -74,6 +75,8 @@ define "Initial Population":
     and exists ( "Qualifying Encounters" )
 
 define "Numerator":
-  exists  ["Procedure": "Fluoride Varnish Application for Children"] FluorideApplication
-      where FluorideApplication.performed during "Measurement Period"
-        and FluorideApplication.status = 'completed'
+  exists ( [DiagnosticReport: "Mammography"] Mammogram
+          where ( Global."Normalize Interval" ( Mammogram.effective ) ends 27 months or less on or before end of "Measurement Period"
+          )
+            and Mammogram.status in { 'final', 'amended', 'corrected', 'appended' }
+      )

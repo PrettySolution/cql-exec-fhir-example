@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns0:RetrieveValueSetResponse xmlns:ns0="urn:ihe:iti:svs:2008" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <ns0:ValueSet ID="2.16.840.1.113883.3.464.1003.125.12.1002" displayName="Fluoride Varnish Application for Children" version="Latest">
+        <ns0:ConceptList>
+            <ns0:Concept code="234723000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMEDCT" codeSystemVersion="2020-09" displayName="Topical application of fluoride - tooth (procedure)"/>
+            <ns0:Concept code="313042009" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMEDCT" codeSystemVersion="2020-09" displayName="Application of dental fluoride varnish (procedure)"/>
+            <ns0:Concept code="35889000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMEDCT" codeSystemVersion="2020-09" displayName="Topical application of fluoride excluding prophylaxis, child (procedure)"/>
+            <ns0:Concept code="70468009" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMEDCT" codeSystemVersion="2020-09" displayName="Topical application of fluoride including prophylaxis, child (procedure)"/>
+            <ns0:Concept code="99188" codeSystem="2.16.840.1.113883.6.12" codeSystemName="CPT" codeSystemVersion="2021" displayName="Application of topical fluoride varnish by a physician or other qualified health care professional"/>
+            <ns0:Concept code="D1206" codeSystem="2.16.840.1.113883.6.13" codeSystemName="CDT" codeSystemVersion="2021" displayName="topical application of fluoride varnish"/>
+            <ns0:Concept code="D1208" codeSystem="2.16.840.1.113883.6.13" codeSystemName="CDT" codeSystemVersion="2021" displayName="topical application of fluoride - excluding varnish"/>
+        </ns0:ConceptList>
+    </ns0:ValueSet>
+</ns0:RetrieveValueSetResponse>

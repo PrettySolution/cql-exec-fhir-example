@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns0:RetrieveValueSetResponse xmlns:ns0="urn:ihe:iti:svs:2008" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <ns0:ValueSet ID="2.16.840.1.113883.3.464.1003.101.12.1023" displayName="Preventive Care Services-Initial Office Visit, 18 and Up" version="Latest">
+        <ns0:ConceptList>
+            <ns0:Concept code="99385" codeSystem="2.16.840.1.113883.6.12" codeSystemName="CPT" codeSystemVersion="2021" displayName="Initial comprehensive preventive medicine evaluation and management of an individual including an age and gender appropriate history, examination, counseling/anticipatory guidance/risk factor reduction interventions, and the ordering of laboratory/diagnostic procedures, new patient; 18-39 years"/>
+            <ns0:Concept code="99386" codeSystem="2.16.840.1.113883.6.12" codeSystemName="CPT" codeSystemVersion="2021" displayName="Initial comprehensive preventive medicine evaluation and management of an individual including an age and gender appropriate history, examination, counseling/anticipatory guidance/risk factor reduction interventions, and the ordering of laboratory/diagnostic procedures, new patient; 40-64 years"/>
+            <ns0:Concept code="99387" codeSystem="2.16.840.1.113883.6.12" codeSystemName="CPT" codeSystemVersion="2021" displayName="Initial comprehensive preventive medicine evaluation and management of an individual including an age and gender appropriate history, examination, counseling/anticipatory guidance/risk factor reduction interventions, and the ordering of laboratory/diagnostic procedures, new patient; 65 years and older"/>
+        </ns0:ConceptList>
+    </ns0:ValueSet>
+</ns0:RetrieveValueSetResponse>
